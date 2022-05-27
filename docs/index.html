@@ -164,7 +164,7 @@
         </div>
         <div style="display:flex; flex-direction:row; justify-content:space-evenly;">
             <textarea id="textArea" style="flex: 4 1 0">金色</textarea>
-            <textarea id="logArea" style="flex: 1 1 0">请在左边写作。右边这里是暂存区域，会纪录每次的续写内容，供你参考。请定期清空这里，以免拖慢速度。</textarea>
+            <textarea style="display:none;" id="logArea" style="flex: 1 1 0">请在左边写作。右边这里是暂存区域，会纪录每次的续写内容，供你参考。请定期清空这里，以免拖慢速度。</textarea>
         </div>
     </div>
     <div style="margin:0 auto 10em auto; text-align:center;">
@@ -609,14 +609,14 @@
                 if (!gWriteShallStop)
                     asyncWriteOne(iter + 1);
                 else {
-                    localStorage.setItem('txt_stored', textArea.value);
-                    localStorage.setItem('log_stored', logArea.value);
+                    // localStorage.setItem('txt_stored', textArea.value);
+                    // localStorage.setItem('log_stored', logArea.value);
                     showBtn()
                 }
             }, 0);
         } else {
-            localStorage.setItem('txt_stored', textArea.value);
-            localStorage.setItem('log_stored', logArea.value);
+            // localStorage.setItem('txt_stored', textArea.value);
+            // localStorage.setItem('log_stored', logArea.value);
             showBtn()
         }
     }
@@ -722,7 +722,7 @@
 
     let txt_stored = localStorage.getItem('txt_stored');
     if (txt_stored) {
-        textArea.value = txt_stored
+        //textArea.value = txt_stored
     } else {
         IS_FIRST_RUN = true
     }
@@ -739,22 +739,22 @@
         textArea.value += d
         textArea.scrollTop = textArea.scrollHeight;
 
-        logArea.value += d
-        logArea.scrollTop = logArea.scrollHeight;
+        // logArea.value += d
+        // logArea.scrollTop = logArea.scrollHeight;
     }
 
-    textArea.onchange = function (e) {
-        localStorage.setItem('txt_stored', textArea.value);
-    }
-    textArea.oninput = function (e) {
-        localStorage.setItem('txt_stored', textArea.value);
-    }
-    logArea.onchange = function (e) {
-        localStorage.setItem('log_stored', logArea.value);
-    }
-    logArea.oninput = function (e) {
-        localStorage.setItem('log_stored', logArea.value);
-    }
+    // textArea.onchange = function (e) {
+    //     localStorage.setItem('txt_stored', textArea.value);
+    // }
+    // textArea.oninput = function (e) {
+    //     localStorage.setItem('txt_stored', textArea.value);
+    // }
+    // logArea.onchange = function (e) {
+    //     localStorage.setItem('log_stored', logArea.value);
+    // }
+    // logArea.oninput = function (e) {
+    //     localStorage.setItem('log_stored', logArea.value);
+    // }
 
     function sendText() {
         if (document.getElementById("loading").style.display != "none")
