@@ -372,22 +372,26 @@
         document.getElementById("set_prompt").disabled = true
     }
 
+    var initPage = false;
     function showBtn() {
         document.getElementById("loading").style.display = "none"
         document.getElementById("writeBtns").style.display = "flex"
         document.getElementById("set_prompt").disabled = false
 
-        let url_txt = getParams('txt');
-        let url_index = getParams('index');
-        textArea.value = url_txt 
-        if (url_index) {
-            document.title = 'AI Writer ' + url_index;
-        }
-
-        if (url_txt) {
-            setTimeout(function() {
-                sendText()
-            }, 500)
+        if (false === initPage) {
+            initPage = true;
+            let url_txt = getParams('txt');
+            let url_index = getParams('index');
+            if (url_index) {
+                document.title = 'AI Writer ' + url_index;
+            }
+            
+            if (url_txt) {
+                textArea.value = url_txt 
+                setTimeout(function() {
+                    sendText()
+                }, 500)
+            }
         }
     }
 
