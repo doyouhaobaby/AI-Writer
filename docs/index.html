@@ -50,7 +50,7 @@
     #logArea {
         font-family: "Hiragino Sans GB", "SimHei", sans-serif;
         line-height: 1.5;
-        font-size: 100%;
+        font-size: 26px;
         height: 80vh;
         padding: 0.3em;
         width: 100%;
@@ -154,9 +154,9 @@
                     <option>每次写200</option>
                     <option>每次写300</option>
                     <option>每次写500</option>
-                    <option>每次写1000</option>
+                    <option selected>每次写1000</option>
                     <option>每次写2000</option>
-                    <option selected>每次写3000</option>
+                    <option>每次写3000</option>
                     <option>每次写5000</option>
                     <option>每次写9999</option>
                 </select>
@@ -180,7 +180,7 @@
     const ctx_len = 768
     const vocab_size = 8849
 
-    var WRITE_EACH_LENGTH = 3000
+    var WRITE_EACH_LENGTH = 1000
     var TOP_P = 0.8
 
     var weightName = [
@@ -790,18 +790,18 @@
         sendText()
     }
 
-    document.onkeydown = function (event) {
-        if (event.altKey) {
-            if (event.keyCode === 81) {
-                sendText()
-                return false
-            }
-            if (event.keyCode === 69) {
-                rewriteText()
-                return false
-            }
-        }
-    }
+    // document.onkeydown = function (event) {
+    //     if (event.altKey) {
+    //         if (event.keyCode === 81) {
+    //             sendText()
+    //             return false
+    //         }
+    //         if (event.keyCode === 69) {
+    //             rewriteText()
+    //             return false
+    //         }
+    //     }
+    // }
 </script>
 
 </html>
