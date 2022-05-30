@@ -123,6 +123,7 @@
                     <option>魔力</option>
                 </select>
                 &nbsp;&nbsp;
+                随机度越高逻辑查
                 <select
                     onchange="TOP_P = parseFloat(this.options[this.selectedIndex].text.split('度')[1])">
                     <option>随机度0</option>
@@ -135,7 +136,15 @@
                     <option>随机度0.9</option>
                     <option>随机度0.95</option>
                     <option>随机度1</option>
-                </select> 随机度越高，内容越丰富但逻辑变差。</div>
+                </select>
+                &nbsp;&nbsp;
+                新窗口创建多个
+                <select
+                    onchange="openWindows(this.options[this.selectedIndex].text)">
+                    <option>是</option>
+                    <option selected>否</option>
+                </select>
+            </div>
         </div>
         <div style="min-height:2em">
             <div id="loading" style="color:blue; font-size: 120%; text-align: center;">
@@ -163,7 +172,7 @@
             </div>
         </div>
         <div style="display:flex; flex-direction:row; justify-content:space-evenly;">
-            <textarea id="textArea" style="flex: 4 1 0">金色</textarea>
+            <textarea id="textArea" style="flex: 4 1 0"></textarea>
             <textarea style="display:none;" id="logArea" style="flex: 1 1 0">请在左边写作。右边这里是暂存区域，会纪录每次的续写内容，供你参考。请定期清空这里，以免拖慢速度。</textarea>
         </div>
     </div>
@@ -299,6 +308,16 @@
     }
     request.send()
 
+    function getParams(key) {
+        let search = window.location.search.replace(/^\?/, "");
+        let pairs = search.split("&");
+        let paramsMap = pairs.map(pair => {
+            let [key, value] = pair.split("=");
+            return [decodeURIComponent(key), decodeURIComponent(value)];
+        }).reduce((res, [key, value]) => Object.assign(res, { [key]: value }), {});
+        return paramsMap[key] || "";
+    }
+
     function loadWeight(wName) {
         var request = new XMLHttpRequest()
         request.open('GET', MODEL_NAME + "/" + wName + ".bin", true)
@@ -357,6 +376,19 @@
         document.getElementById("loading").style.display = "none"
         document.getElementById("writeBtns").style.display = "flex"
         document.getElementById("set_prompt").disabled = false
+
+        let url_txt = getParams('txt');
+        let url_index = getParams('index');
+        textArea.value = url_txt 
+        if (url_index) {
+            document.title = 'AI Writer ' + url_index;
+        }
+
+        if (url_txt) {
+            setTimeout(function() {
+                sendText()
+            }, 500)
+        }
     }
 
     var ln_eps = null
@@ -788,6 +820,16 @@
         textArea.value = pp
         window.scrollTo(0, 0)
         sendText()
+    }
+
+    function openWindows(text) {
+        if ('是' == text && textArea.value) {
+            for (var i=0; i<5; i++)
+            {
+                window.open("/?txt="+encodeURIComponent(textArea.value)+'&index='+(i+1), "_blank");
+            }
+            sendText()
+        }
     }
 
     // document.onkeydown = function (event) {
