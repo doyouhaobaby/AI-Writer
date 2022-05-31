@@ -836,18 +836,18 @@
         }
     }
 
-    // document.onkeydown = function (event) {
-    //     if (event.altKey) {
-    //         if (event.keyCode === 81) {
-    //             sendText()
-    //             return false
-    //         }
-    //         if (event.keyCode === 69) {
-    //             rewriteText()
-    //             return false
-    //         }
-    //     }
-    // }
+    document.onkeydown = function (event) {
+        if (event.altKey) {
+            if (event.keyCode === 81) {
+                sendText()
+                return false
+            }
+            if (event.keyCode === 69) {
+                rewriteText()
+                return false
+            }
+        }
+    }
 </script>
 
 </html>
