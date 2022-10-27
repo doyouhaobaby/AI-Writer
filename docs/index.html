@@ -2,8 +2,10 @@
 <html>
 
 <head>
-    <script src="/tf.min.js"> </script>
-    <script src="/tf-backend-wasm.js"></script>
+<!--    <script src="/tf.min.js"> </script>-->
+<!--    <script src="/tf-backend-wasm.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>
     <script>
         tf.setBackend('wasm');
     </script>
@@ -22,7 +24,7 @@
     }
 
     body {
-        background-color: black;
+        background-color: #ffd;
         /* background-color: #cfc; */
         overflow-y: scroll;
         color: #000;
@@ -50,13 +52,13 @@
     #logArea {
         font-family: "Hiragino Sans GB", "SimHei", sans-serif;
         line-height: 1.5;
-        font-size: 26px;
+        font-size: 15px;
         height: 80vh;
         padding: 0.3em;
         width: 100%;
         box-sizing: border-box;
-        background-color: black;
-        color:#575555;
+        background-color: white;
+        color:#000;
     }
 
     #logArea {
@@ -137,13 +139,13 @@
                     <option>随机度0.95</option>
                     <option>随机度1</option>
                 </select>
-                &nbsp;&nbsp;
-                新窗口创建多个
-                <select
-                    onchange="openWindows(this.options[this.selectedIndex].text)">
-                    <option>是</option>
-                    <option selected>否</option>
-                </select>
+<!--                &nbsp;&nbsp;-->
+<!--                新窗口创建多个-->
+<!--                <select-->
+<!--                    onchange="openWindows(this.options[this.selectedIndex].text)">-->
+<!--                    <option>是</option>-->
+<!--                    <option selected>否</option>-->
+<!--                </select>-->
             </div>
         </div>
         <div style="min-height:2em">
