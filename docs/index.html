@@ -2,10 +2,10 @@
 <html>
 
 <head>
-<!--    <script src="/tf.min.js"> </script>-->
-<!--    <script src="/tf-backend-wasm.js"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>
+   <script src="/tf.min.js"> </script>
+<script src="/tf-backend-wasm.js"></script>
+   <!--  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>-->
+  <!--   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script>-->
     <script>
         tf.setBackend('wasm');
     </script>
@@ -73,7 +73,6 @@
     }
 
     .writeBtn {
-        width: 45%;
         height: 2em;
         cursor: pointer;
     }
@@ -82,7 +81,7 @@
 <body>
     <div id="textWrap">
         <div style="line-height: 1.5;">
-            <div style="margin: 1em 0">使用创意开头：<select id="set_prompt"
+            <div style="margin: 1em 0">创意开头：<select id="set_prompt"
                     onchange="setPrompt(this.options[this.selectedIndex].text)">
                     <option>请选择</option>
                     <option>恐怖</option>
@@ -125,7 +124,7 @@
                     <option>魔力</option>
                 </select>
                 &nbsp;&nbsp;
-                随机度越高逻辑查
+                越高逻辑越差
                 <select
                     onchange="TOP_P = parseFloat(this.options[this.selectedIndex].text.split('度')[1])">
                     <option>随机度0</option>
@@ -133,11 +132,26 @@
                     <option>随机度0.5</option>
                     <option>随机度0.7</option>
                     <option >随机度0.75</option>
-                    <option selected>(默认)随机度0.8</option>
+                    <option selected>随机度0.8</option>
                     <option>随机度0.85</option>
                     <option>随机度0.9</option>
                     <option>随机度0.95</option>
                     <option>随机度1</option>
+                </select>
+		&nbsp;&nbsp;
+                <select onchange="WRITE_EACH_LENGTH = parseInt(this.options[this.selectedIndex].text.split('写')[1])">
+                    <option>每次写30</option>
+                    <option>每次写50</option>
+                    <option>每次写75</option>
+                    <option>每次写100</option>
+                    <option>每次写200</option>
+                    <option>每次写300</option>
+                    <option selected>每次写500</option>
+                    <option>每次写1000</option>
+                    <option>每次写2000</option>
+                    <option>每次写3000</option>
+                    <option>每次写5000</option>
+                    <option>每次写9999</option>
                 </select>
 <!--                &nbsp;&nbsp;-->
 <!--                新窗口创建多个-->
@@ -149,28 +163,13 @@
             </div>
         </div>
         <div style="min-height:2em">
-            <div id="loading" style="color:blue; font-size: 120%; text-align: center;">
-                正在读取模型 <span id="loadprog"></span>，模型在 <a href="https://github.com/BlinkDL/AI-Writer"
-                    target="_blank">Github 外网</a>，请找方法加速。读取完就会有续写按钮。
+            <div id="loading" style="color:blue; font-size: 120%; text-align: center;margin-bottom:10px;">
+                正在读取模型 <span id="loadprog"></span>,读取完就会有续写按钮。
             </div>
             <div id="writeBtns"
                 style="width: 100%; display: none; margin-bottom:0.5em; flex-direction:row; justify-content:space-evenly;">
-                <button class="writeBtn" onclick="sendText()">续写 (alt+Q)</button>
-                <button class="writeBtn" onclick="rewriteText()">换个写法 (alt+E)</button>
-                <select onchange="WRITE_EACH_LENGTH = parseInt(this.options[this.selectedIndex].text.split('写')[1])">
-                    <option>每次写30</option>
-                    <option>每次写50</option>
-                    <option>每次写75</option>
-                    <option>每次写100</option>
-                    <option>每次写200</option>
-                    <option>每次写300</option>
-                    <option>每次写500</option>
-                    <option selected>每次写1000</option>
-                    <option>每次写2000</option>
-                    <option>每次写3000</option>
-                    <option>每次写5000</option>
-                    <option>每次写9999</option>
-                </select>
+                 <button style="width:80%;" class="writeBtn" onclick="rewriteText()">换个写法 (alt+E)</button>
+                 <button style="width:20%;" class="writeBtn" onclick="sendText()">续写 (alt+Q)</button>
             </div>
         </div>
         <div style="display:flex; flex-direction:row; justify-content:space-evenly;">
@@ -191,7 +190,7 @@
     const ctx_len = 768
     const vocab_size = 8849
 
-    var WRITE_EACH_LENGTH = 1000
+    var WRITE_EACH_LENGTH = 500
     var TOP_P = 0.8
 
     var weightName = [
@@ -370,8 +369,8 @@
 
     function hideBtn() {
         document.getElementById("loading").style.display = "block"
-        document.getElementById("writeBtns").style.display = "none"
-        document.getElementById("set_prompt").disabled = true
+        //document.getElementById("writeBtns").style.display = "none"
+        //document.getElementById("set_prompt").disabled = true
     }
 
     var initPage = false;
@@ -647,13 +646,13 @@
                 if (!gWriteShallStop)
                     asyncWriteOne(iter + 1);
                 else {
-                    // localStorage.setItem('txt_stored', textArea.value);
+                    localStorage.setItem('txt_stored', textArea.value);
                     // localStorage.setItem('log_stored', logArea.value);
                     showBtn()
                 }
             }, 0);
         } else {
-            // localStorage.setItem('txt_stored', textArea.value);
+             localStorage.setItem('txt_stored', textArea.value);
             // localStorage.setItem('log_stored', logArea.value);
             showBtn()
         }
@@ -679,7 +678,7 @@
                     if (iter == ANALYZE_LENGTH - 1)
                         saveStat(out, ctxStr)
                 }
-                document.getElementById("loading").innerHTML = '正在分析最后 ' + iter + '/' + ANALYZE_LENGTH + ' 字（这步待优化，以后会提速10倍）' + ' <button onmousedown="gWriteShallStop=true">【停止】</button>'
+                document.getElementById("loading").innerHTML = '正在分析最后 ' + iter + '/' + ANALYZE_LENGTH + ' 字' + ' <button onmousedown="gWriteShallStop=true">【停止】</button>'
                 asyncAnalyze(iter + 1, callback);
             }, 0);
         } else {
@@ -760,7 +759,7 @@
 
     let txt_stored = localStorage.getItem('txt_stored');
     if (txt_stored) {
-        //textArea.value = txt_stored
+        textArea.value = txt_stored
     } else {
         IS_FIRST_RUN = true
     }
@@ -781,12 +780,12 @@
         // logArea.scrollTop = logArea.scrollHeight;
     }
 
-    // textArea.onchange = function (e) {
-    //     localStorage.setItem('txt_stored', textArea.value);
-    // }
-    // textArea.oninput = function (e) {
-    //     localStorage.setItem('txt_stored', textArea.value);
-    // }
+     textArea.onchange = function (e) {
+         localStorage.setItem('txt_stored', textArea.value);
+     }
+    textArea.oninput = function (e) {
+         localStorage.setItem('txt_stored', textArea.value);
+     }
     // logArea.onchange = function (e) {
     //     localStorage.setItem('log_stored', logArea.value);
     // }
